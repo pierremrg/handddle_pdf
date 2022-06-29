@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 from template_manager import TemplateManager
 import json
 import base64
+from os import path as osp
 
 app = Flask(__name__)
 
@@ -10,7 +11,10 @@ def generate_job_summary(data):
     data = base64.b64decode(data)
     data = json.loads(data)
 
-    tm = TemplateManager('templates/job_summary.html')
+    current_directory = osp.dirname(osp.realpath(__file__))
+
+
+    tm = TemplateManager(current_directory, 'templates/job_summary.html')
     tm.add_css('css/job_summary.css')
 
     if 'repeated_parts' in data:
